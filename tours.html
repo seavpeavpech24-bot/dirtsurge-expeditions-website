@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Or for .png -->
+    <link rel="icon" href="./images/logo.png" type="image/png">
+    <style>
+        .h-96 {
+            height: 24rem; /* 384px */
+        }
+
+        /* Increase height for PC view (screens >= 768px) */
+        @media (min-width: 768px) {
+            .h-96 {
+                height: 32rem; /* 576px, adjust as needed */
+            }
+        }
+
+        section {
+            background-color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        @media (max-width: 767px) {
+            .container {
+                flex-direction: column;
+            }
+            .md\:w-1\/2 {
+                width: 100%;
+            }
+        }
+
+        .underline {
+        transition: all 0.3s ease;
+        }
+
+        /* Add to your <style> section in the <head> */
+            .spinner {
+            animation: rotator 1.4s linear infinite;
+        }
+
+        @keyframes rotator {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(270deg);
+            }
+        }
+
+        .path {
+            stroke-dasharray: 187;
+            stroke-dashoffset: 0;
+            transform-origin: center;
+            animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+        }
+
+        @keyframes colors {
+            0% {
+                stroke: #4285F4;
+            }
+            25% {
+                stroke: #DE3E35;
+            }
+            50% {
+                stroke: #F7C223;
+            }
+            75% {
+                stroke: #1B9A59;
+            }
+            100% {
+                stroke: #4285F4;
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 187;
+            }
+            50% {
+                stroke-dashoffset: 46.75;
+                transform: rotate(135deg);
+            }
+            100% {
+                stroke-dashoffset: 187;
+                transform: rotate(450deg);
+            }
+        }
+
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Add this right after the opening <body> tag -->
+    <div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50 hidden">
+        <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const spinner = document.getElementById('loading-spinner');
+            const links = document.querySelectorAll('a[href]:not([href^="mailto"]):not([href^="tel"]):not([href^="https"]):not([href^="#"])');
+
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent immediate navigation
+                    const href = link.getAttribute('href');
+
+                    // Show the spinner
+                    spinner.classList.remove('hidden');
+
+                    // Simulate a delay for the spinner (optional, adjust as needed)
+                    setTimeout(() => {
+                        window.location.href = href; // Navigate to the new page
+                    }, 500); // 500ms delay to show the spinner
+                });
+            });
+
+            // Hide the spinner when the new page loads
+            window.addEventListener('load', () => {
+                spinner.classList.add('hidden');
+            });
+        });
+    </script>
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+            <img src="./images/logo.png" alt="Company Logo" class="h-16">
+            </div>
+    
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">Home</a>
+            <a href="tours.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">Tours</a>
+            <a href="our-bike.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">Bike & Gear</a>
+            <a href="about.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">About</a>
+            <a href="why-us.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">Why us</a>
+            <a href="contact.html" class="text-gray-700 font-bold hover:text-red-600 transition duration-300">Contact</a>
+            <!-- Language Switcher Links (Desktop) -->
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-gray-700 hover:text-red-600 transition duration-300" aria-label="Switch to English" lang="en">EN</a>
+                <span class="text-gray-700">|</span>
+                <a href="./kh/index-kh.html" class="text-gray-700 hover:text-red-600 transition duration-300" aria-label="Switch to Khmer" lang="km">KH</a>
+            </div>
+            </div>
+    
+            <!-- Hamburger Menu Button and Mobile Language Switcher -->
+            <div class="md:hidden flex items-center space-x-4">
+            <!-- Language Switcher Links (Mobile) -->
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-gray-700 hover:text-red-600 transition duration-300" aria-label="Switch to English" lang="en">EN</a>
+                <span class="text-gray-700">|</span>
+                <a href="./kh/index-kh.html" class="text-gray-700 hover:text-red-600 transition duration-300" aria-label="Switch to Khmer" lang="km">KH</a>
+            </div>
+            <button id="menu-toggle" class="text-gray-700 focus:outline-none" aria-label="Toggle mobile menu">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path id="hamburger" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <path id="close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            </div>
+        </div>
+    
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="pt-2 pb-3 space-y-1">
+            <a href="index.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">Home</a>
+            <a href="tours.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">Tours</a>
+            <a href="our-bike.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">Bike & Gear</a>
+            <a href="about.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">About</a>
+            <a href="why-us.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">Why us</a>
+            <a href="contact.html" class="block px-3 py-2 text-gray-700 font-bold hover:text-red-600 hover:bg-gray-50">Contact</a>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-96 overflow-hidden">
+        <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://i.pinimg.com/474x/ed/bf/73/edbf7353393cc3d039792dc89a0dd4b6.jpg');">
+            <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+            <div class="relative h-full flex items-end justify-center text-center text-white pb-12">
+                <div>
+                    <h1 class="text-4xl font-bold mb-4">Tours</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 md:px-24 bg-gradient-to-b from-blue-50 to-white">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <!-- Image Cards -->
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="relative">
+                    <img src="https://i.pinimg.com/474x/17/1b/17/171b174768766029d6fcc6504910899a.jpg" alt="Tousand Island" class="rounded-lg shadow-md">
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-lg font-semibold">Tousand Island</h3>
+                        <p class="text-sm">★ 5.0 (1.2 Review)</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://i.pinimg.com/474x/1d/d9/90/1dd9907fab0f00a4dac1b787143c7471.jpg" alt="SC. Mindanao" class="rounded-lg shadow-md">
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-lg font-semibold">SC. Mindanao</h3>
+                        <p class="text-sm">★ 5.0 (1.2 Review)</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Text and Stats -->
+            <div class="text-center md:text-left">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Best of this Week</h2>
+                <p class="text-gray-600 mb-6">Let's spend your money wisely and relieve your stress by going around the island of Bali to the fullest.</p>
+                <div class="flex justify-center md:justify-start gap-6 mb-6">
+                    <div>
+                        <p class="text-2xl font-bold text-pink-500">50+</p>
+                        <p class="text-gray-600">Destinations</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-pink-500">200+</p>
+                        <p class="text-gray-600">Hotels</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-pink-500">100+</p>
+                        <p class="text-gray-600">Tourists</p>
+                    </div>
+                </div>
+                <button class="bg-teal-500 text-white px-6 py-2 rounded-full hover:bg-teal-600 transition">Find New Place</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Explore Our Destinations</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Discover the best dirt biking spots in Kampong Thom on the map below.</p>
+            <div id="map" class="h-96 w-full rounded-lg shadow-md"></div>
+        </div>
+    </section>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        var map = L.map('map').setView([12.7110, 104.8887], 8); // Center on Kampong Thom
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.marker([12.871059, 105.0407466]).addTo(map).bindPopup('Sambor Prei Kuk');
+        L.marker([12.652146,104.9858089]).addTo(map).bindPopup('Phnom Santuk');
+        L.marker([12.9667, 105.4667]).addTo(map).bindPopup('Prey Lang Wildlife Sanctuary');
+        L.marker([13.4124693, 103.8644108]).addTo(map).bindPopup('Angkor Wat Temple');
+        
+    </script>
+
+    <!-- Explore Iconic Locations -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Most Popular in 2025</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Let's spend your money wisely and relieve your stress by going around Cambodia.</p>
+            <!-- <h2 class="text-3xl font-bold text-center mb-4">Top Dirt Biking Destinations in Kampong Thom</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">​Kampong Thom Province offers a variety of dirt biking experiences, from challenging off-road trails to scenic routes through forests and ancient temples. Here are some top spots and tours to consider:​</p> -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://th.bing.com/th/id/OIP.8fZiee9Ikc5AJ5qS3XUfqQHaEm?rs=1&pid=ImgDetMain" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Sambor Prei Kuk</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">This UNESCO World Heritage site features pre-Angkorian temples nestled in the forest. The surrounding trails offer a mix of cultural exploration and off-road adventure.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://i.pinimg.com/736x/3d/8e/23/3d8e2363446d59146df9d48c6c7f7d88.jpg" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Phnom Santuk</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">A sacred hill with panoramic views, Phnom Santuk is accessible via a stone pathway flanked by statues. The ascent provides both a physical challenge and cultural insight.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://i.pinimg.com/736x/0b/0d/98/0b0d9805a6eaed4a36e2d9d4917285d9.jpg" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Prey Lang Wildlife Sanctuary</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">One of Southeast Asia's last lowland evergreen forests, Prey Lang offers dense jungle trails ideal for experienced riders seeking a rugged adventure.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://images.sbs.com.au/dims4/default/c639b40/2147483647/strip/true/crop/1436x808+2+0/resize/1280x720!/quality/90/?url=http:%2F%2Fsbs-au-brightspot.s3.amazonaws.com%2F4c%2Fdf%2Faf5dddc644e083bdcce85980faa0%2F308950339-2230566150450562-1310881734320587591-n.jpg" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Stung Sen Wildlife Sanctuary</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">Located near the southeastern tip of the Tonlé Sap, this sanctuary features open deciduous forests and wetlands, providing diverse terrains for dirt biking.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://i.ytimg.com/vi/bPWbIqyMZuI/maxresdefault.jpg" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Boeng Tonle Chhmar</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">This Ramsar-listed wetland area includes flooded forests and waterways, offering unique off-road experiences, especially during the dry season when trails are more accessible.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://khmernote.com.kh/wp-content/uploads/2022/09/309861420_523596083099322_3578362114384454690_n.jpg" alt="Tour" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 flex items-center space-x-2">
+                            <span class="text-yellow-400">★ 5.0</span>
+                            <i class="far fa-heart text-gray-600"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Chinit River Trail</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Duration: 8 hours |  Level: 2-4 </p>
+                        <p class="text-gray-600 mb-4">This trail offers a mix of terrains, including riverbanks, forested areas, and rural landscapes, providing both scenic beauty and challenging routes for riders.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$360 <span class="text-gray-600 text-sm"></span></span>
+                            <a href="tour-details.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">See More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Dirt Biking Tips & Stories</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Check out our blog for the latest tips, guides, and rider stories!</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="https://i.pinimg.com/474x/6e/8e/4e/6e8e4ecb5914c9b6f479a1534f04981d.jpg" alt="Blog 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Top 5 Tips for Beginner Dirt Bikers</h3>
+                        <p class="text-gray-600 mb-4">Learn the essentials to kickstart your dirt biking journey.</p>
+                        <a href="blog-post.html" class="text-blue-600 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="https://i.pinimg.com/474x/82/37/ef/8237efec78626be558a229b06286d283.jpg" alt="Blog 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Exploring Cambodia on Two Wheels</h3>
+                        <p class="text-gray-600 mb-4">A rider’s guide to the best trails in Kampong Thom.</p>
+                        <a href="blog-post.html" class="text-blue-600 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="https://i.pinimg.com/474x/88/c5/bf/88c5bf05b2dd2372a1c6b74447c6ee0c.jpg" alt="Blog 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">How to Choose the Right Dirt Bike Gear</h3>
+                        <p class="text-gray-600 mb-4">Gear up with our expert recommendations.</p>
+                        <a href="blog-post.html" class="text-blue-600 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Gear Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Featured Dirt Biking Gear</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Gear up for your adventure with our top picks!</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="./images/Helmet.jpg" alt="Helmet" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">Pro Dirt Helmet</h3>
+                        <p class="text-gray-600 mb-4">Lightweight, durable, and designed for maximum protection.</p>
+                        <a href="gear-details.html" class="text-blue-600 font-semibold hover:underline">View Details</a>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="./images/GripMaster_Gloves.jpg" alt="Gloves" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">GripMaster Gloves</h3>
+                        <p class="text-gray-600 mb-4">Enhanced grip and comfort for long rides.</p>
+                        <a href="gear-details.html" class="text-blue-600 font-semibold hover:underline">View Details</a>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="./images/TrailBlazer_Bike.jpg" alt="Bike" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2">TrailBlazer Bike</h3>
+                        <p class="text-gray-600 mb-4">Perfect for rugged terrains and long-distance tours.</p>
+                        <a href="gear-details.html" class="text-blue-600 font-semibold hover:underline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">What Our Riders Say</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Hear from adventurers who’ve experienced the thrill of dirt biking with us!</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <p class="text-gray-600 mb-4">"An incredible experience! The trails at Sambor Prei Kuk were challenging and the guides were amazing."</p>
+                    <p class="text-gray-800 font-semibold">— Sarah T.</p>
+                    <div class="text-yellow-400 mt-2">★★★★★</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <p class="text-gray-600 mb-4">"Phnom Santuk was breathtaking. The views and the ride were worth every penny!"</p>
+                    <p class="text-gray-800 font-semibold">— Mark L.</p>
+                    <div class="text-yellow-400 mt-2">★★★★★</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <p class="text-gray-600 mb-4">"Prey Lang trails were tough but so rewarding. Highly recommend DirtSurge!"</p>
+                    <p class="text-gray-800 font-semibold">— Emma R.</p>
+                    <div class="text-yellow-400 mt-2">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-blue-600 text-white text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-4">Ready for Your Next Adventure?</h2>
+            <p class="text-lg mb-6">Book your dirt biking tour today and explore Cambodia like never before!</p>
+            <a href="booking.html" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Book Now</a>
+        </div>
+    </section>
+
+    <!-- subscribe to the newsletter -->
+    <section class="py-16 bg-gray-200">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay in the Loop</h2>
+            <p class="text-gray-600 mb-6 max-w-xl mx-auto">Subscribe to our newsletter for the latest updates on tours, gear, and exclusive offers!</p>
+            <form class="flex justify-center gap-4">
+                <input type="email" placeholder="Enter your email" class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-sm">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Whatapp link -->
+    <a href="https://wa.me/+85516700896" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+    
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-16">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <img src="./images/logo.png" alt="Logo" class="h-13 mb-4">
+                <p class="text-gray-400 mb-4">DirtSurge Expeditions offers unforgettable adventures across the globe.</p>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" target="_blank" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="Follow us on YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Expeditions</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Paris</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Tokyo</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">New York</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Rome</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Why Us</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">All Expeditions</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Bikes & Gears</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Reviews</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                <p class="text-gray-400 mb-4">We Accept Payment:</p>
+                <img src="./images/payment.png" alt="Payment methods accepted" sizes="70px" class="mb-4">
+                <p class="text-gray-400">123 Adventure St, Travel City</p>
+                <p class="text-gray-400">Phone: +1 234 567 890</p>
+                <p class="text-gray-400">WhatsApp: +855 10 34 20 20</p>
+                <p class="text-gray-400">info@dirtsurgeexpeditions.com</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+            <p class="text-gray-400 text-sm">© 2025 DirtSurge Expeditions. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
